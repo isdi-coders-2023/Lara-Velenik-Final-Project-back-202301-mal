@@ -1,5 +1,5 @@
 {
-  "name": "base-backend-express",
+  "name": "final-project-back",
   "version": "1.0.0",
   "description": "Hypocat is a web application that searches for hypoallergenic cats",
   "main": "dist/server.js",
