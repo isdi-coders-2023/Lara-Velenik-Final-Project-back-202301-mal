@@ -2,8 +2,8 @@ import { UserModel } from '../users/user-schema.js';
 import { Request, Response } from 'express';
 import { loginUserController } from './auth-controller.js';
 import dotenv from 'dotenv';
-import { generateJWTToken } from './auth-utils.js';
 dotenv.config();
+import { generateJWTToken } from './auth-utils.js';
 
 describe('Given a loginUserController', () => {
   const request = {
