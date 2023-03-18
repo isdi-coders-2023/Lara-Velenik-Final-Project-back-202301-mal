@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { ValidationError } from 'express-validation';
 import { Error } from 'mongoose';
+import { CustomHTTPError } from './custom-http-error.js';
 import log from '../logger.js';
 
 export const errorHandler = (
@@ -11,6 +12,10 @@ export const errorHandler = (
 ) => {
   if (err instanceof ValidationError) {
     return res.status(err.statusCode).json(err);
+  }
+
+  if (err instanceof CustomHTTPError) {
+    return res.status(err.httpCode).json(err.toBodyJSON());
   }
 
   log.error(err);
