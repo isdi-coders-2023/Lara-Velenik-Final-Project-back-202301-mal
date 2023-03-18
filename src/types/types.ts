@@ -4,7 +4,11 @@ export interface LoginResponse {
   accessToken: string;
 }
 
-export type AuthRequest = Pick<User, 'email' | 'password'>;
+export type LoginRequest = Pick<User, 'email' | 'password'>;
+export type RegisterRequest = Pick<
+  User,
+  'name' | 'surname' | 'email' | 'password'
+>;
 
 export interface UserQueryId {
   id: string;
