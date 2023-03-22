@@ -11,6 +11,8 @@ import { CustomHTTPError } from '../../utils/custom-http-error.js';
 import { UserModel } from '../users/user-schema.js';
 import { Ads, AdsModel } from './ads-schema.js';
 
+const queryProjection = { __v: 0 };
+
 export const createAdController: RequestHandler<
   unknown,
   Ads,
@@ -60,5 +62,33 @@ export const createAdController: RequestHandler<
   log.info('Ad created', dbRes);
   if (dbRes !== null) {
     res.sendStatus(201);
+  }
+};
+
+export const getAllAdsController: RequestHandler = async (_req, res, next) => {
+  try {
+    const foundAds = await AdsModel.find({}, queryProjection).exec();
+    res.json(foundAds);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAdByIdController: RequestHandler<
+  { _id: string },
+  Ads | { message: string }
+> = async (req, res, next) => {
+  const { _id } = req.params;
+
+  try {
+    const ad = await AdsModel.findById(_id).exec();
+
+    if (ad === null) {
+      return next(new CustomHTTPError(404, 'The ad does not exist'));
+    }
+
+    res.json(ad);
+  } catch (error) {
+    next(error);
   }
 };
