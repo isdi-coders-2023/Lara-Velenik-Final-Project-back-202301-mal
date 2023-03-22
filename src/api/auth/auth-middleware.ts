@@ -24,6 +24,5 @@ export const authMiddleware: RequestHandler = (req, res, next) => {
 
   res.locals.email = payload.email;
 
-  console.log(`User email set to ${payload.email}`);
   next();
 };
