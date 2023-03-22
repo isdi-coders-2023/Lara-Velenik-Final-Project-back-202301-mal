@@ -20,6 +20,9 @@ describe('Given a loginUserController', () => {
     status: jest.fn().mockReturnThis(),
     json: jest.fn().mockReturnThis(),
   } as Partial<Response>;
+
+  const next = jest.fn();
+
   const tokenJWT = {
     accessToken: generateJWTToken(request.body.email),
   };
@@ -41,15 +44,10 @@ describe('Given a loginUserController', () => {
     UserModel.findOne = jest.fn().mockImplementation(() => ({
       exec: jest.fn().mockResolvedValue(null),
     }));
-    await loginUserController(
-      request as Request,
-      response as Response,
-      jest.fn(),
+    await loginUserController(request as Request, response as Response, next);
+    expect(next).toHaveBeenCalledWith(
+      new CustomHTTPError(404, 'The user does not exist'),
     );
-    expect(response.status).toHaveBeenCalledWith(404);
-    expect(response.json).toHaveBeenCalledWith({
-      message: 'The user does not exist',
-    });
   });
 });
 

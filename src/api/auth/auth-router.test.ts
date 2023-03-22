@@ -5,6 +5,8 @@ import connectDB from '../../database/connection.js';
 import app from '../../app.js';
 import { UserModel } from '../users/user-schema.js';
 import { encryptPassword } from './auth-utils.js';
+import dotenv from 'dotenv';
+dotenv.config();
 describe('Given an app with auth-router', () => {
   let mongoServer: MongoMemoryServer;
 
