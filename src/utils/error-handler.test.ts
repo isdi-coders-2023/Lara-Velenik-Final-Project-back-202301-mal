@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { ValidationError } from 'express-validation';
 import { errorHandler } from '../utils/error-handler.js';
 import { CustomHTTPError } from './custom-http-error.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 describe('Given an errorHandler', () => {
   let mockRequest: Partial<Request>;

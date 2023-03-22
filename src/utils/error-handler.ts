@@ -3,6 +3,8 @@ import { ValidationError } from 'express-validation';
 import { Error } from 'mongoose';
 import { CustomHTTPError } from './custom-http-error.js';
 import log from '../logger.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const errorHandler = (
   err: Error,
