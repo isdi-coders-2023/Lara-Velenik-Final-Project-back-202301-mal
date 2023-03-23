@@ -53,7 +53,7 @@ export const createAdController: RequestHandler<
         .from(PROFILE_BUCKET_NAME)
         .getPublicUrl(fileName);
       log.info('Public URL generated', data.publicUrl);
-      newAd.image = data.publicUrl; // Add the image URL to the newAd object
+      newAd.image = data.publicUrl;
     }
   }
 
@@ -68,7 +68,7 @@ export const createAdController: RequestHandler<
 export const getAllAdsController: RequestHandler = async (_req, res, next) => {
   try {
     const foundAds = await AdsModel.find({}, queryProjection).exec();
-    res.json(foundAds);
+    res.json({ ads: foundAds, msg: 'Ads found' });
   } catch (error) {
     next(error);
   }

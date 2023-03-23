@@ -3,6 +3,7 @@ import { Ads, AdsModel } from './ads-schema.js';
 import { AdsRequest, UserLocalsAuthInfo } from '../../types/ads-types.js';
 import {
   createAdController,
+  // DeleteAdController,
   getAdByIdController,
   getAllAdsController,
 } from './ads-controller.js';
@@ -59,7 +60,7 @@ describe('Given a createAdController to create an ad', () => {
   AdsModel.create = jest.fn().mockResolvedValue(ad);
   UserModel.findOne = jest.fn().mockResolvedValue(ad);
 
-  test('when the user tries to create an ad with an image, it should return a 201 status', async () => {
+  test('When the user tries to create an ad with an image, then it should return a 201 status', async () => {
     UserModel.findOne = jest.fn().mockImplementation(() => ({
       exec: jest.fn().mockResolvedValue(1),
     }));
@@ -93,7 +94,7 @@ describe('Given a createAdController to create an ad', () => {
     expect(mockResponse.sendStatus).toHaveBeenCalledWith(201);
   });
 
-  test('when the user tries to create an ad without an image, then it should continue', async () => {
+  test('When the user tries to create an ad without an image, then it should continue', async () => {
     UserModel.findOne = jest.fn().mockImplementation(() => ({
       exec: jest.fn().mockResolvedValue(1),
     }));
@@ -124,7 +125,7 @@ describe('Given a createAdController to create an ad', () => {
     expect(mockResponse.sendStatus).toHaveBeenCalledWith(201);
   });
 
-  test('when it tries to search for a creator user and does not find one, then it gives a 404 error', async () => {
+  test('When it tries to search for a creator user and does not find one, then it gives a 404 error', async () => {
     UserModel.findOne = jest.fn().mockImplementation(() => ({
       exec: jest.fn().mockResolvedValue(null),
     }));
@@ -191,7 +192,7 @@ describe('Given a createAdController to create an ad', () => {
         next,
       );
 
-      expect(mockResponse.json).toHaveBeenCalledWith(ads);
+      expect(mockResponse.json).toHaveBeenCalledWith({ ads, msg: 'Ads found' });
     });
 
     test('When an error is throw, then it should be passed on to be handled', async () => {
@@ -208,7 +209,7 @@ describe('Given a createAdController to create an ad', () => {
     });
   });
 
-  describe('Given a getAdByIdController to create an ad', () => {
+  describe('Given a getAdByIdController', () => {
     const mockRequest = {
       params: { _id: 'mockId' },
     } as Partial<Request>;
