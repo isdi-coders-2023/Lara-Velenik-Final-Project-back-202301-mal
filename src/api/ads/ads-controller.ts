@@ -92,3 +92,46 @@ export const getAdByIdController: RequestHandler<
     next(error);
   }
 };
+
+export const deleteAdController: RequestHandler<
+  { _id: string },
+  Ads,
+  AdsRequest,
+  unknown,
+  UserLocalsAuthInfo
+> = async (req, res, next) => {
+  const { email } = res.locals;
+  const { _id } = req.params;
+
+  log.info('email ', email);
+
+  const creatorUser = await UserModel.findOne(
+    { email },
+    { password: 0, __v: 0 },
+  ).exec();
+
+  if (creatorUser === null) {
+    return next(new CustomHTTPError(404, 'User not found'));
+  }
+
+  const adUser = await AdsModel.findOne(
+    { creator: creatorUser._id, _id },
+    { password: 0, __v: 0 },
+  ).exec();
+
+  if (adUser === null) {
+    return next(new CustomHTTPError(404, 'Wrong user'));
+  }
+
+  try {
+    const ad = await AdsModel.findOneAndDelete({ _id }).exec();
+
+    if (ad === null) {
+      return next(new CustomHTTPError(404, 'The ad does not exist'));
+    }
+
+    res.json(ad);
+  } catch (error) {
+    next(error);
+  }
+};

@@ -3,6 +3,7 @@ import { Ads, AdsModel } from './ads-schema.js';
 import { AdsRequest, UserLocalsAuthInfo } from '../../types/ads-types.js';
 import {
   createAdController,
+  deleteAdController,
   // DeleteAdController,
   getAdByIdController,
   getAllAdsController,
@@ -269,6 +270,192 @@ describe('Given a createAdController to create an ad', () => {
         next,
       );
 
+      expect(mockResponse.json).toHaveBeenCalledWith(mockAd);
+    });
+  });
+
+  describe('Testing deleteAdController to an ad', () => {
+    const mockRequest = {
+      locals: { email: 'thais@gmail.com', id: '64186d711077a06023a724d9' },
+      params: { _id: '64186d711077a06023a724d9' },
+    } as Partial<Request | any>;
+
+    const mockResponse = {
+      json: jest.fn(),
+      locals: { email: 'thais@gmail.com', id: '64186d711077a06023a724d9' },
+    } as Partial<Response>;
+
+    const next = jest.fn();
+
+    const mockAd = {
+      name: 'mockName',
+      surname: 'mockSurname',
+      breed: 'mockBreed',
+      email: 'mockEmail',
+      phone: '611000000',
+      city: 'mockCity',
+      image: 'https://example.com/photo.webp',
+    };
+    UserModel.findOne = jest.fn().mockReturnValue(() => ({
+      exec: jest.fn().mockResolvedValue(1),
+    }));
+    test('When the ad does not exist, then it should pass on an error 404', async () => {
+      AdsModel.findOneAndDelete = jest.fn().mockReturnValue({
+        exec: jest.fn().mockResolvedValue(null),
+      });
+
+      await deleteAdController(
+        mockRequest as Request<
+          any,
+          Ads,
+          AdsRequest,
+          unknown,
+          UserLocalsAuthInfo
+        >,
+        mockResponse as Response<Ads | { message: string }, UserLocalsAuthInfo>,
+        next,
+      );
+
+      expect(next).toHaveBeenCalled();
+    });
+
+    test('When an error is throw searching for id, then it should be passed on to be handled', async () => {
+      AdsModel.findOneAndDelete = jest.fn().mockReturnValue({
+        exec: jest.fn().mockRejectedValue(null),
+      });
+
+      await deleteAdController(
+        mockRequest as Request<
+          { _id: string },
+          Ads,
+          AdsRequest,
+          unknown,
+          UserLocalsAuthInfo
+        >,
+        mockResponse as Response<Ads | { message: string }, UserLocalsAuthInfo>,
+        next,
+      );
+      expect(next).toHaveBeenCalled();
+    });
+
+    test('When the ad exist, then the server should respond with its all ok and delete the ad', async () => {
+      UserModel.findOne = jest.fn().mockImplementation(() => ({
+        exec: jest.fn().mockResolvedValue(1),
+      }));
+      AdsModel.findOne = jest.fn().mockImplementation(() => ({
+        exec: jest.fn().mockResolvedValue(1),
+      }));
+      AdsModel.findOneAndDelete = jest.fn().mockReturnValue({
+        exec: jest.fn().mockResolvedValue(mockAd),
+      });
+
+      await deleteAdController(
+        mockRequest as Request<
+          { _id: string },
+          Ads,
+          AdsRequest,
+          unknown,
+          UserLocalsAuthInfo
+        >,
+        mockResponse as Response<any, UserLocalsAuthInfo>,
+        next,
+      );
+      expect(mockResponse.json).toHaveBeenCalledWith(mockAd);
+    });
+    test('When the ad exist, an ad is found but could not be deleted', async () => {
+      UserModel.findOne = jest.fn().mockImplementation(() => ({
+        exec: jest.fn().mockResolvedValue(1),
+      }));
+      AdsModel.findOne = jest.fn().mockImplementation(() => ({
+        exec: jest.fn().mockResolvedValue(1),
+      }));
+      AdsModel.findOneAndDelete = jest.fn().mockReturnValue({
+        exec: jest.fn().mockResolvedValue(null),
+      });
+
+      await deleteAdController(
+        mockRequest as Request<
+          { _id: string },
+          Ads,
+          AdsRequest,
+          unknown,
+          UserLocalsAuthInfo
+        >,
+        mockResponse as Response<any, UserLocalsAuthInfo>,
+        next,
+      );
+      expect(mockResponse.json).toHaveBeenCalledWith(mockAd);
+    });
+    test('When the ad exist, then an error is thrown while trying to delete an existing ad', async () => {
+      UserModel.findOne = jest.fn().mockImplementation(() => ({
+        exec: jest.fn().mockResolvedValue(1),
+      }));
+      AdsModel.findOne = jest.fn().mockImplementation(() => ({
+        exec: jest.fn().mockResolvedValue(1),
+      }));
+      AdsModel.findOneAndDelete = jest.fn().mockReturnValue({
+        exec: jest.fn().mockRejectedValue(null),
+      });
+
+      await deleteAdController(
+        mockRequest as Request<
+          { _id: string },
+          Ads,
+          AdsRequest,
+          unknown,
+          UserLocalsAuthInfo
+        >,
+        mockResponse as Response<any, UserLocalsAuthInfo>,
+        next,
+      );
+      expect(mockResponse.json).toHaveBeenCalledWith(mockAd);
+    });
+    test('When the ad exist, but the user is not found then the ad is not deleted', async () => {
+      UserModel.findOne = jest.fn().mockImplementation(() => ({
+        exec: jest.fn().mockResolvedValue(1),
+      }));
+      AdsModel.findOne = jest.fn().mockImplementation(() => ({
+        exec: jest.fn().mockResolvedValue(null),
+      }));
+      AdsModel.findOneAndDelete = jest.fn().mockReturnValue({
+        exec: jest.fn().mockResolvedValue(mockAd),
+      });
+
+      await deleteAdController(
+        mockRequest as Request<
+          { _id: string },
+          Ads,
+          AdsRequest,
+          unknown,
+          UserLocalsAuthInfo
+        >,
+        mockResponse as Response<any, UserLocalsAuthInfo>,
+        next,
+      );
+      expect(mockResponse.json).toHaveBeenCalledWith(mockAd);
+    });
+    test('When the user is not found, then the ad cannot be deleted', async () => {
+      UserModel.findOne = jest.fn().mockImplementation(() => ({
+        exec: jest.fn().mockResolvedValue(null),
+      }));
+      AdsModel.findOne = jest.fn().mockImplementation(() => ({
+        exec: jest.fn().mockResolvedValue(1),
+      }));
+      AdsModel.findOneAndDelete = jest.fn().mockReturnValue({
+        exec: jest.fn().mockResolvedValue(mockAd),
+      });
+
+      await deleteAdController(
+        mockRequest as Request<
+          { _id: string },
+          Ads,
+          AdsRequest,
+          unknown,
+          UserLocalsAuthInfo
+        >,
+        mockResponse as Response<any, UserLocalsAuthInfo>,
+        next,
+      );
       expect(mockResponse.json).toHaveBeenCalledWith(mockAd);
     });
   });
