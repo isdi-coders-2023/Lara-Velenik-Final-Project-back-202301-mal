@@ -1,6 +1,7 @@
 import express from 'express';
 import {
   createAdController,
+  deleteAdController,
   getAdByIdController,
   getAllAdsController,
 } from './ads-controller.js';
@@ -12,6 +13,8 @@ router.route('/').get(getAllAdsController);
 
 router.route('/:_id').get(getAdByIdController);
 
-router.route('/create').post(upload.single('cat-ad'), createAdController);
+router.route('/').post(upload.single('cat-ad'), createAdController);
+
+router.route('/:_id').delete(deleteAdController);
 
 export default router;
