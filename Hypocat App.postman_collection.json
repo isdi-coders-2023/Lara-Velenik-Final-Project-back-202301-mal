@@ -1,0 +1,192 @@
+{
+  "info": {
+    "_postman_id": "a2c32d1c-649c-44d4-8ec3-43745b92d973",
+    "name": "Hypocat App",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "25667855"
+  },
+  "item": [
+    {
+      "name": "Hypocat Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Lara\",\r\n    \"surname\": \"Vel\",\r\n    \"email\": \"lara3@gmail.com\",\r\n    \"password\": \"secret123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://lara-velenik-final-project-back-202301.onrender.com/auth/register",
+          "protocol": "https",
+          "host": ["lara-velenik-final-project-back-202301", "onrender", "com"],
+          "path": ["auth", "register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Hypocat Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"lara3@gmail.com\",\r\n    \"password\": \"secret123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://lara-velenik-final-project-back-202301.onrender.com/auth/login",
+          "protocol": "https",
+          "host": ["lara-velenik-final-project-back-202301", "onrender", "com"],
+          "path": ["auth", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Hypocat GetAll",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxhcmEzQGdtYWlsLmNvbSIsImlhdCI6MTY4MDE4MjQxMH0.XZZ4z0vbrWAVuu92qrqWFlgEhUKx_UO1dRUMvtv44jI",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://lara-velenik-final-project-back-202301.onrender.com/api/v1/ads",
+          "protocol": "https",
+          "host": ["lara-velenik-final-project-back-202301", "onrender", "com"],
+          "path": ["api", "v1", "ads"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Hypocat GetById",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxhcmEzQGdtYWlsLmNvbSIsImlhdCI6MTY4MDE4MjQxMH0.XZZ4z0vbrWAVuu92qrqWFlgEhUKx_UO1dRUMvtv44jI",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://lara-velenik-final-project-back-202301.onrender.com/api/v1/ads/64198d40ea9826d8157e2d89",
+          "protocol": "https",
+          "host": ["lara-velenik-final-project-back-202301", "onrender", "com"],
+          "path": ["api", "v1", "ads", "64198d40ea9826d8157e2d89"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Hypocat CreateAd",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxhcmEzQGdtYWlsLmNvbSIsImlhdCI6MTY4MDE4MjQxMH0.XZZ4z0vbrWAVuu92qrqWFlgEhUKx_UO1dRUMvtv44jI",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "name",
+              "value": "Lara",
+              "type": "text"
+            },
+            {
+              "key": "surname",
+              "value": "Vel",
+              "type": "text"
+            },
+            {
+              "key": "breed",
+              "value": "Oriental",
+              "type": "text"
+            },
+            {
+              "key": "email",
+              "value": "lara3@gmail.com",
+              "type": "text"
+            },
+            {
+              "key": "phone",
+              "value": "611111111",
+              "type": "text"
+            },
+            {
+              "key": "city",
+              "value": "Sevilla",
+              "type": "text"
+            },
+            {
+              "key": "cat-ad",
+              "type": "file",
+              "src": "/C:/Users/larav/OneDrive/Imágenes/Proyecto Final - Hypocat/Gato Oriental/gato-oriental(3).webp"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://lara-velenik-final-project-back-202301.onrender.com/api/v1/ads/",
+          "protocol": "https",
+          "host": ["lara-velenik-final-project-back-202301", "onrender", "com"],
+          "path": ["api", "v1", "ads", ""]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Hypocat DeleteAd",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxhcmEzQGdtYWlsLmNvbSIsImlhdCI6MTY4MDE4MjQxMH0.XZZ4z0vbrWAVuu92qrqWFlgEhUKx_UO1dRUMvtv44jI",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://lara-velenik-final-project-back-202301.onrender.com/api/v1/ads/64258f2aebd1d15eebe5ca77",
+          "protocol": "https",
+          "host": ["lara-velenik-final-project-back-202301", "onrender", "com"],
+          "path": ["api", "v1", "ads", "64258f2aebd1d15eebe5ca77"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
